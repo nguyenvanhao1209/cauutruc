@@ -42,6 +42,30 @@ void printTree(node *t){
 		printTree(t->right);
 	}
 }
+node *findNode(node *t,int x){
+	node *p = t;
+	while(p->data != x){
+		if(p->data > x){
+			p = p->left;
+		}
+		else{
+			p = p->right;
+		}
+	}
+	return p;
+}
+node *parent(node *t, node *p){
+	node *q = t;
+	while(q->left != p && q->right !=p){
+		if(q->data > p->data){
+			q = q->left;
+		}
+		else{
+			q = q->right;
+		}
+	}
+	return q;
+}
 int main(){
 	int n,x;
 	scanf("%d",&n);
@@ -53,5 +77,7 @@ int main(){
 	}
 	printTree(t);
 	printf("\n%d",countNode(t));
-	printf("\n%d",depth(t));
+	printf("\n%d\n",depth(t));
+	node *p = findNode(t,1);
+	printf("%d",parent(t,p)->data);
 }
