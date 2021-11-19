@@ -37,8 +37,8 @@ void mergeSort(int A[],int l,int r){
 	if(l<r){
 		int m = l+(r-l)/2;
 		mergeSort(A, l, m);
-        mergeSort(A, m+1, r);
-        merge(A, l, m, r);
+		mergeSort(A, m+1, r);
+		merge(A, l, m, r);
 	}
 }
 //T(n) = O(nlogn)
