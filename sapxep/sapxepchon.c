@@ -12,3 +12,6 @@ void selectionSort(A[],int n){
 		A[k] = temp;
 	}
 }
+//tot nhat: 0 doi cho, n(n-1)/2 so sanh
+//toi nhat: n-1 doi cho, n(n-1)/2 so sanh
+//trung binh: O(n) doi cho, n(n-1)/2 so sanh
