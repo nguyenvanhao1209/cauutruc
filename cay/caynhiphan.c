@@ -42,17 +42,40 @@ void printTree(node *t){
 		printTree(t->right);
 	}
 }
-node *findNode(node *t,int x){
-	node *p = t;
-	while(p->data != x){
-		if(p->data > x){
-			p = p->left;
+node *searchNode(node *t,int x){
+  if(t == NULL) return NULL;
+  else if(t->data == x) return t;
+  else if(t->data < x) return searchNode(t->right,x);
+  else return searchNode(t->left,x);
+}
+node *deleteNode(node *t,int x){
+	if(t == NULL) return t;
+	if(searchNode(t,x) != NULL){
+		if(t->data == x){
+			if(t->left == NULL){
+				node *temp = t->right;
+				free(t);
+				return temp;
+			}
+			if(t->right == NULL){
+				node *temp = t->left;
+				free(t);
+				return temp;
+			}
+			t->data = left_most(t->right)->data;
+			t->right = deleteNode(t->right,t->data);
+			return t;
+		}
+		else if(t->data > x){
+			t->left = deleteNode(t->left,x);
 		}
 		else{
-			p = p->right;
+			t->right = deleteNode(t->right,x);
 		}
+	}else{
+		printf("\nKhong ton tai gia tri can tim!");
 	}
-	return p;
+	return t;
 }
 node *parent(node *t, node *p){
 	node *q = t;
