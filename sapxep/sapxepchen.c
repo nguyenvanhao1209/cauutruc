@@ -4,7 +4,7 @@ void insertionSort(int A[],int n){
 	for(i=1;i<n;i++){
 		last = A[i];
 		j = i;
-		while((j>1) && (A[j-1]>last)){
+		while((j>0) && (A[j-1]>last)){
 			A[j] = A[j-1];
 			j--;
 		}
