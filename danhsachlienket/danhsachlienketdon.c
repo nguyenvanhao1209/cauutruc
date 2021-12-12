@@ -1,135 +1,122 @@
 #include<stdio.h>
 #include<stdlib.h>
-struct Node{
- int value;
- struct Node* next;
+struct node{
+	int data;
+	struct node *next;
 };
-typedef struct Node Node;
-void printList(Node* h){
-	Node* p = h;
-	while(p != NULL){
-		printf("%d ",p->value);
+typedef struct node node;
+node *createNode(int x){
+    node *temp = (node*)malloc(sizeof(node));
+    temp->next = NULL;
+    temp->data = x;
+    return temp;
+}
+void printList(node *l){
+	node *p = l;
+	while (p != NULL){
+		printf("%d ",p->data);
 		p = p->next;
 	}
 }
-Node* findLast(Node* h){
-	Node* p = h;
-	while(p != NULL){
-		if(p->next == NULL) return p;
-		p = p->next;
-	}
-	return NULL;
-}
-Node* makeNode(int x){
-	Node* q = (Node*)malloc(sizeof(Node));
-	q->value = x; q->next = NULL;
-	return q;
-}
-Node *addElement(node*p, int x){
-	node *temp = makeNode(x);
+node *addElement(node*p, int x){
+	node *temp = createNode(x);
 	p->next = temp;
 	return temp;
 }
-Node* insertAfter(Node* h, Node* p, int x){
-	if(p == NULL) return h;
-	Node* q = makeNode(x);
-	if(h == NULL) return q;
-	q->next = p->next;
-	p->next = q;
-	return h;
+node *addHead(node *l, int x){
+	node *temp = (node*)malloc(sizeof(node));
+	temp->data = x;
+	temp->next = l;
+	l = temp;
+	return l;
 }
-Node* insertLast(Node* h, int x){
-	Node* q = makeNode(x);
-	if(h == NULL)
-		return q;
-	Node* p = h;
-	while(p->next != NULL)
-		p = p->next;
-	p->next = q;
-	return h;
+node *addTail(node *l, int x){
+	node *p = l;
+	while (p->next != NULL){
+		p= p->next;
+	}
+	node *temp = (node*)malloc(sizeof(node));
+	temp->data = x;
+	temp->next = NULL;
+	p->next = temp;
+	return l;
 }
-Node* locate(Node* h, int x){
-	Node* p = h;
-	while(p != NULL){
-		if(p->value == x) return p;
+node *deleteHead(node *l){
+	node *p = l;
+	p = p->next;
+	free(l);
+	return p;
+}
+node *deleteTail(node *l){
+	node *p = l;
+	while (p->next->next != NULL){
 		p = p->next;
 	}
-	return NULL;
+	free(p->next);
+	p->next = NULL;
+	return l;
 }
-Node* prev(Node* h, Node* p){
-	Node* q = h;
+void sort(node *l){
+	node *p = l;
+	node *p1;
+	for(p = l;p != NULL; p = p->next){
+		for(p1 = p->next; p1 != NULL; p1 = p1->next){
+			if(p->data<p1->data){
+				int temp = p->data;
+				p->data = p1->data;
+				p1->data = temp;
+			}
+		}
+	}
+}
+node* prev(node* h, node* p){
+	node* q = h;
 	while(q != NULL){
 		if(q->next == p) return q;
 		q = q->next;
 	}
 	return NULL;
 }
-Node* insertAt(Node* h, Node* p, int x){
-	Node* pp = prev(h,p);
-	if(pp == NULL && p != NULL) return h;
-	Node* q =  (Node*)malloc(sizeof(Node));
-	q->value = x; q->next = NULL;
-	if(pp == NULL){
-		if(h == NULL)
-		return q;
-		q->next = h;
+node *deleteNode(node *l,node*p){
+	if(l == p){
+		node *q = l;
+		q = q->next;
+		free(l);
 		return q;
 	}
-	q->next = p; pp->next = q;
-	return h;
+	node *q = prev(l,p);
+	q->next = p->next;
+	free(p);
+	return l;
 }
-Node* insertAtRecursive(Node* h, Node* p, int x){
-	if(p == NULL) return h;
-	if(h == NULL || p == h){
-		return makeNode(x);
-	}else{
-		h->next = insertAtRecursive(h->next,p,x);
-		return h;
-	}
-}
-Node* remove(Node* h, Node* p){
-	if(h == NULL || p == NULL) return h;
-	if(h == p){
-		h = h->next;
-	 free(p);
-	return h;
-	}else{
-		h->next = remove(h->next,p);
-		return h;
-	}
-}
-Node *removeHead(node *h){
-	Node *p = h;
-	p = p->next;
-	free(l);
-	return p;
-}
-Node *removeTail(node *h){
-	Node *p = h;
-	while (p->next->next != NULL){
+node *searchNode(node *l,int x){
+	node *p = l;
+	while(p != NULL){
+		if(p->data == x) return p;
 		p = p->next;
 	}
-	delete(p->next);
-	p->next = NULL;
-	return h;
+	return NULL;
 }
-
+node *l;
 int main(){
 	int n;
 	int x;
 	scanf("%d",&n);
 	scanf("%d",&x);
-	Node *head = makeNode(x);
-	Node *p = head;
+	l = createNode(x);
+	node *p = l;
 	int i;
-	for(i=1;i<n;i++){
+	for (i = 1; i < n; i++){
 		scanf("%d",&x);
-		p = addElement(p,x);
+		p = addElement(p, x);
 	}
-	int a;
-	scanf("%d",&a);
-	insertLast(head,a);
-	removeHead(head);
-	removeTail(head);
-	printList(head);
+	printList(l);
+	int k;
+	fflush(stdin);
+	printf("\n");
+	scanf("%d",&k);
+	while(searchNode(l,k) != NULL){
+		l = deleteNode(l,searchNode(l,k));
+	}
+	printList(l);
 }
