@@ -98,7 +98,7 @@ node *parent(node *t, node *p){
 	}
 	return q;
 }
-int count(node *t,int x){
+int countX(node *t,int x){
 	if(t == NULL) return 0;
 	if(t->data.dochoi == x) return 1 + count(t->left, x) + count(t->right, x);
 	return count(t->left, x) + count(t->right, x);
