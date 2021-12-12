@@ -48,10 +48,19 @@ node *searchNode(node *t,int x){
   else if(t->data < x) return searchNode(t->right,x);
   else return searchNode(t->left,x);
 }
+node *left_most(node *t){
+	if(t == NULL) return t;
+	else{
+		while(t->left != NULL){
+			t = t->left;
+		}
+	}
+	return t;
+}
 node *deleteNode(node *t,int x){
 	if(t == NULL) return t;
 	if(searchNode(t,x) != NULL){
-		if(t->data == x){
+		if(x == t->data){
 			if(t->left == NULL){
 				node *temp = t->right;
 				free(t);
@@ -66,7 +75,7 @@ node *deleteNode(node *t,int x){
 			t->right = deleteNode(t->right,t->data);
 			return t;
 		}
-		else if(t->data > x){
+		else if(x.maso < t->data.maso){
 			t->left = deleteNode(t->left,x);
 		}
 		else{
@@ -88,6 +97,11 @@ node *parent(node *t, node *p){
 		}
 	}
 	return q;
+}
+int count(node *t,int x){
+	if(t == NULL) return 0;
+	if(t->data.dochoi == x) return 1 + count(t->left, x) + count(t->right, x);
+	return count(t->left, x) + count(t->right, x);
 }
 int main(){
 	int n,x;
