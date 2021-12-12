@@ -100,8 +100,8 @@ node *parent(node *t, node *p){
 }
 int countX(node *t,int x){
 	if(t == NULL) return 0;
-	if(t->data.dochoi == x) return 1 + count(t->left, x) + count(t->right, x);
-	return count(t->left, x) + count(t->right, x);
+	if(t->data.dochoi == x) return 1 + countX(t->left, x) + countX(t->right, x);
+	return countX(t->left, x) + countX(t->right, x);
 }
 int main(){
 	int n,x;
@@ -115,6 +115,6 @@ int main(){
 	printTree(t);
 	printf("\n%d",countNode(t));
 	printf("\n%d\n",depth(t));
-	node *p = findNode(t,1);
+	node *p = searchNode(t,1);
 	printf("%d",parent(t,p)->data);
 }
