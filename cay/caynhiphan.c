@@ -75,7 +75,7 @@ node *deleteNode(node *t,int x){
 			t->right = deleteNode(t->right,t->data);
 			return t;
 		}
-		else if(x.maso < t->data.maso){
+		else if(x < t->data){
 			t->left = deleteNode(t->left,x);
 		}
 		else{
@@ -100,7 +100,7 @@ node *parent(node *t, node *p){
 }
 int countX(node *t,int x){
 	if(t == NULL) return 0;
-	if(t->data.dochoi == x) return 1 + countX(t->left, x) + countX(t->right, x);
+	if(t->data == x) return 1 + countX(t->left, x) + countX(t->right, x);
 	return countX(t->left, x) + countX(t->right, x);
 }
 int main(){
