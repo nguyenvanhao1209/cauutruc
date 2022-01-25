@@ -104,12 +104,45 @@ void timkiemthoigian(){
 		printf("khong tim thay lich su di chuyen\n");
 	}
 }
+void kiemtratruyvet(){
+	char diadiemtim[41];
+	printf("nhap dia diem can tim: ");
+	fflush(stdin);
+	gets(diadiemtim);
+	int giotim,phuttim;
+	printf("nhap gio, phut, 0<=gio<24, 0<=phut<=60: ");
+	fflush(stdin);
+	scanf("%d %d",&giotim,&phuttim);
+	while((giotim<0 || giotim>=24) || (phuttim<0 || phuttim>60)){
+		printf("nhap lai: ");
+		scanf("%d %d",&giotim,&phuttim);
+	}
+	node *p = l;
+	int dem = 0;
+	while(p != NULL){
+		if(p->next->data.gio > giotim || (p->next->data.gio == giotim && p->next->data.phut > phuttim)){
+			if(strcmp(p->data.diadiem,diadiemtim) == 0){
+				printf("ban co kha nang bi lay covid\n");
+				dem++;
+			}
+			else{
+				printf("lich su di chuyen ok\n");
+				dem++;
+			}
+			break;
+		}
+		p = p->next;
+	}
+	if(dem == 0){
+		printf("lich su di chuyen ok\n");
+	}
+}
 void menu(){
 	printf("1. docfile\n");
 	printf("2. inralichsu\n");
 	printf("3. timkiemdiadiem\n");
 	printf("4. timkiemthoigian\n");
-	printf("5. gopdanhsach\n");
+	printf("5. kiemtratruyvet\n");
 	printf("6. Thoat\n");
 }
 int chonmenu(){
@@ -139,8 +172,8 @@ void xulymenu(){
 			timkiemthoigian();
 			break;
 		case 5:
-			printf("5. gopdanhsach\n");
-
+			printf("5. kiemtratruyvet\n");
+			kiemtratruyvet();
 			break;
 		case 6:
 			printf("6. Thoat\n");
