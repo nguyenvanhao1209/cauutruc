@@ -90,15 +90,34 @@ node *t = NULL;
 void xemdiem(node *p){
 	printf("%d\n",p->data.diem);
 }
+int kiemtra(char str[]){
+	int i;
+	for(i=0;i<strlen(str);i++){
+		if(str[i] == ' ') return 0;
+	}
+	return 1;
+}
 void doimatkhau(node *p){
 	char mk[20];
 	printf("nhap mat khau moi: ");
 	fflush(stdin);
 	gets(mk);
+	while(kiemtra(mk) == 0){
+		printf("khong dc co dau cach\n");
+		printf("nhap lai: ");
+		fflush(stdin);
+		gets(mk);
+	}
 	char mkl[20];
 	printf("nhap lai mat khau: ");
 	fflush(stdin);
 	gets(mkl);
+	while(kiemtra(mkl) == 0){
+		printf("khong dc co dau cach\n");
+		printf("nhap lai: ");
+		fflush(stdin);
+		gets(mkl);
+	}
 	while(strcmp(mk,mkl) !=0){
 		printf("nhap lai mat khau: ");
 		fflush(stdin);
@@ -169,6 +188,12 @@ void themsinhvien(node *p){
 	printf("nhap username: ");
 	fflush(stdin);
 	scanf("%s",x.username);
+	while(kiemtra(x.username) == 0){
+		printf("khong dc co dau cach\n");
+		printf("nhap lai: ");
+		fflush(stdin);
+		scanf("%s",x.username);
+	}
 	while(findNode(p,x) != NULL){
 		printf("username da ton tai\n");
 		printf("nhap username: ");
@@ -178,6 +203,12 @@ void themsinhvien(node *p){
 	printf("nhap password: ");
 	fflush(stdin);
 	gets(x.password);
+	while(kiemtra(x.password) == 0){
+		printf("khong dc co dau cach\n");
+		printf("nhap lai: ");
+		fflush(stdin);
+		gets(x.password);
+	}
 	printf("nhap diem: ");
 	fflush(stdin);
 	scanf("%d",&x.diem);
@@ -224,6 +255,34 @@ void xoasinhvien(node *p){
 		printf("khong the xoa Admin\n");
 	}
 }
+void ghilaithongtinad(node *p){
+	FILE *f;
+	f = fopen("C:/Users/Administrator/Desktop/test.txt","w");
+	node *cur = p;
+	node *pre;
+		while(cur != NULL){
+		if(cur->left == NULL){
+			fprintf(f,"%s\t%s\t%d\n",cur->data.username,cur->data.password,cur->data.diem);
+			cur = cur->right;
+		}
+		else{
+			pre = cur->left;
+			while(pre->right != NULL && pre->right != cur){
+				pre = pre->right;
+			}
+			if(pre->right == NULL){
+				pre->right = cur;
+				cur = cur->left;
+			}
+			else{
+                pre->right = NULL;
+				fprintf(f,"%s\t%s\t%d\n",cur->data.username,cur->data.password,cur->data.diem);
+				cur = cur->right;
+			}
+		}
+	}
+	fclose(f);
+}
 void menuad(){
 	printf("1. themsinhvien\n");
 	printf("2. indanhsach\n");
@@ -254,6 +313,7 @@ int xulymenuad(node *p){
 			break;
 		case 4:
 			printf("4. ghilaithongtinad\n");
+			ghilaithongtinad(t);
 			break;
 	}
 	return chon;
@@ -325,7 +385,7 @@ int chonmenu(){
 	printf("\nchon chuc nang: ");
 	scanf("%d",&n);
 	if(n>0 || n<3) return n;
-	else return chonmenu();	
+	else return chonmenu();
 }
 void xulymenu(){
 	int chon = chonmenu();
