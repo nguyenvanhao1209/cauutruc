@@ -34,6 +34,17 @@ void printLisft(node *l){
 		p = p->next;
 	}
 }
+node *deleteHead(node *l){
+	node *p = l;
+	p = p->next;
+	free(l);
+	return p;
+}
+void deleteList(node *l){
+	while(l != NULL){
+		l = deleteHead(l);
+	}
+}
 node *l;
 void docfile(){
 	FILE *f;
@@ -84,15 +95,20 @@ void timkiemdiadiem(){
 }
 void timkiemthoigian(){
 	int giotim,phuttim;
-	printf("nhap gio, phut, 0<=gio<24, 0<=phut<=60: ");
+	printf("nhap gio, phut, 0<=gio<24, 0<=phut<60: ");
 	scanf("%d %d",&giotim,&phuttim);
-	while((giotim<0 || giotim>=24) || (phuttim<0 || phuttim>60)){
+	while((giotim<0 || giotim>=24) || (phuttim<0 || phuttim>=60)){
 		printf("nhap lai: ");
 		scanf("%d %d",&giotim,&phuttim);
 	}
 	node *p = l;
 	int dem = 0;
 	while(p != NULL){
+		if(p->next == NULL){
+			printf("%s",p->data.diadiem);
+			dem++;
+			break;
+		}
 		if(p->next->data.gio > giotim || (p->next->data.gio == giotim && p->next->data.phut > phuttim)){
 			printf("%s",p->data.diadiem);
 			dem++;
@@ -120,6 +136,17 @@ void kiemtratruyvet(){
 	node *p = l;
 	int dem = 0;
 	while(p != NULL){
+		if(p->next == NULL){
+			if(strcmp(p->data.diadiem,diadiemtim) == 0){
+				printf("ban co kha nang bi lay covid\n");
+				dem++;
+			}
+			else{
+				printf("lich su di chuyen ok\n");
+				dem++;
+			}
+			break;
+		}
 		if(p->next->data.gio > giotim || (p->next->data.gio == giotim && p->next->data.phut > phuttim)){
 			if(strcmp(p->data.diadiem,diadiemtim) == 0){
 				printf("ban co kha nang bi lay covid\n");
@@ -155,7 +182,7 @@ int chonmenu(){
 void xulymenu(){
 	int chon = chonmenu();
 	switch(chon){
-		case 1: 
+		case 1:
 		    printf("1.docfile\n");
 			docfile();
 			break;
@@ -177,8 +204,9 @@ void xulymenu(){
 			break;
 		case 6:
 			printf("6. Thoat\n");
+			deleteList(l);
 			exit(1);
-			break;		
+			break;
 	}
 }
 int main(){
