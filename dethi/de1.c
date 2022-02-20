@@ -80,18 +80,6 @@ node *deleteNode(node *t,qua x){
 	}
 	return t;
 }
-int count(node *t,char x[]){
-	if(t == NULL) return 0;
-	if(strcmp(t->data.dochoi,x)==0) return 1 + count(t->left, x) + count(t->right, x);
-	return count(t->left, x) + count(t->right, x);
-}
-void dem(node*t){
-	if(t != NULL){
-		dem(t->left);
-		printf("%-20s\t%-10d\n",t->data.dochoi,count(t,t->data.dochoi));
-		dem(t->right);
-	}
-}
 node *t = NULL;
 char c;
 void docfileA(){
