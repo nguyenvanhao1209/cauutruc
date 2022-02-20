@@ -94,7 +94,8 @@ void dichcau(){
 	printf("nhap cau tieng anh: ");
 	fflush(stdin);
 	gets(dich);
-	char *token = strtok(dich," ");
+	strlwr(dich); //chuyen chuoi hoa thanh thuong
+	char *token = strtok(dich," "); // tach tu theo dau cach
 	tudien str[10];
 	int n=0;
 	while(token != NULL){
@@ -128,7 +129,7 @@ int chonmenu(){
 	printf("\nchon chuc nang: ");
 	scanf("%d",&n);
 	if(n>0 || n<6) return n;
-	else return chonmenu();	
+	else return chonmenu();
 }
 void xulymenu(){
 	int chon = chonmenu();
